@@ -1,0 +1,22 @@
+{
+  "name": "comp-yield-farming-data-analysis",
+  "version": "1.0.0",
+  "description": "Data analysis related to COMP liquidity mining.",
+  "main": "index.js",
+  "author": "Alex Kroeger",
+  "license": "Apache 2.0",
+  "scripts": {
+    "build": "yarn tsc"
+  },
+  "dependencies": {
+    "@types/node": "^16.11.6",
+    "axios": "^0.24.0",
+    "csv": "^5.5.3",
+    "dotenv": "^10.0.0",
+    "ethers": "^5.5.1",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "ts-node": "^10.4.0"
+  }
+}

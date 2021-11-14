@@ -1,12 +1,13 @@
 {
-  "name": "comp-yield-farming-data-analysis",
+  "name": "comp-liquidity-mining-data-analysis",
   "version": "1.0.0",
   "description": "Data analysis related to COMP liquidity mining.",
   "main": "index.js",
   "author": "Alex Kroeger",
   "license": "Apache 2.0",
   "scripts": {
-    "build": "yarn tsc"
+    "build": "yarn tsc",
+    "start": "node lib/index.js"
   },
   "dependencies": {
     "@types/node": "^16.11.6",

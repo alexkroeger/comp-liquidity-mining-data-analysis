@@ -50,11 +50,21 @@ function writeCSV(data: any[], filepath: string) {
 async function fetchGovernorBravoVoteHistory(
     address: string,
     governorBravoContract: Contract,
-    targetBlock: number
+    targetBlock: number,
 ): Promise<Event[]> {
     const filter = governorBravoContract.filters.VoteCast(address);
 
     return await governorBravoContract.queryFilter(filter,1,targetBlock);
+}
+
+async function fetchDelegationHistory(
+    address: string,
+    compContract: Contract,
+    targetBlock: number,
+): Promise<Event[]> {
+    const filter = compContract.filters.DelegateChanged(address);
+
+    return await compContract.queryFilter(filter,1,targetBlock);
 }
 
 async function fetchCompBalanceInfo(
@@ -88,11 +98,12 @@ async function fetchCompBalanceInfo(
     const topAccruers = await readCSVAsync(TOP_ACCRURERS_PATH);
     
     const outData = [];
-    outData.push(['address','comp_accrued','comp_claimed','comp_balance','comp_in_ccomp','num_votes']);
+    outData.push(['address','comp_accrued','comp_claimed','comp_balance','comp_in_ccomp','num_votes','num_delegations']);
     for (const accruer of topAccruers) {
         const compBalances = await fetchCompBalanceInfo(TARGET_BLOCK, accruer[0], compContract, cCompContract);
         const voteHistory = await fetchGovernorBravoVoteHistory(accruer[0], governorBravoContract, TARGET_BLOCK);
-        outData.push([accruer[0],accruer[1],accruer[2],compBalances.compBalance, compBalances.cCompUnderlying, voteHistory.length]);
+        const delegateHistory = await fetchDelegationHistory(accruer[0], compContract, TARGET_BLOCK);
+        outData.push([accruer[0],accruer[1],accruer[2],compBalances.compBalance, compBalances.cCompUnderlying, voteHistory.length, delegateHistory.length]);
         console.log(`finished fetching on-chain data for ${accruer[0]}`);
     }
 
